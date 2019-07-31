@@ -20,5 +20,10 @@ namespace ClassLibrary1
             }
             return -1;
         }
+        public string FindStringConcatenation(string firstStr, string secondStr)
+        {
+            string delRepeat = string.Join(string.Empty, secondStr.Where(x => !firstStr.Contains(x)));
+            return firstStr + delRepeat;
+        }
     }
 }

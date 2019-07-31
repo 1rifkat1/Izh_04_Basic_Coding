@@ -30,7 +30,7 @@ namespace Izh_04_Basic_Coding
         [TestCase("AsdfeAd", "Assqaasssqs", ExpectedResult = "AsdfeAdqaaq")]
         public string CheckStringConcatenation(string firstStr, string secondStr)
         {
-            throw new NotImplementedException();
+            return LabWorker.FindStringConcatenation( firstStr,  secondStr);
         }
 
         [TestCase(new int[] { 7, 1, 2, 3, 4, 5, 6, 7, 68, 69, 70, 15, 17 }, 7, ExpectedResult = new int[] { 7, 7, 70, 17 })]
