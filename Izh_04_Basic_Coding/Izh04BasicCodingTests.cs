@@ -40,5 +40,30 @@ namespace Izh_04_Basic_Coding
         {
             throw new NotImplementedException();
         }
+
+
+
+        [TestCase(8, 15,0,0, ExpectedResult = 9)]   
+        [TestCase(15, 15,0,0, ExpectedResult = 15)]
+        [TestCase(8, 15, 3, 8, ExpectedResult = 120)]
+        public int CheckInsertNumber(int num1, int num2, int i, int j)
+        {
+            return LabWorker.InsertNumber(num1, num2, i, j);
+        }
+        [TestCase(12, ExpectedResult = 21)]
+        [TestCase(513, ExpectedResult = 531)]
+        [TestCase(2017, ExpectedResult = 2071)]
+        [TestCase(414, ExpectedResult = 441)]
+        [TestCase(144, ExpectedResult = 414)]
+        [TestCase(1234321, ExpectedResult = 1241233)]
+        [TestCase(1234126, ExpectedResult = 1234162)]
+        [TestCase(3456432, ExpectedResult = 3462345)]
+        [TestCase(10, ExpectedResult = -1)]
+        [TestCase(20, ExpectedResult = -1)]
+        public int CheckFindNextBiggerNumber(int num)
+        {            
+            var time = 0.0;
+            return LabWorker.FindNextBiggerNumber(num , out time);
+        }
     }
 }
