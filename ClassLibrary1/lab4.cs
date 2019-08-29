@@ -72,7 +72,7 @@ namespace ClassLibrary1
             return result;
         }
         #endregion
-        public int FindNextBiggerNumber(int num,out double time)
+        public int FindNextBiggerNumber(int num, out double time)
         {
             int result;
             var watcher = new Stopwatch();
@@ -114,6 +114,50 @@ namespace ClassLibrary1
             watcher.Stop();
             time = watcher.ElapsedMilliseconds;
             return result;
+        }
+
+        public int FindMaxElement(int[] arr)
+        {
+            if (arr != null)
+            {
+                return SearchMaxElement(arr, int.MinValue, 0);
+            }
+            else
+            {
+                return 0;
+            }
+
+        }
+        /// <summary>
+        /// Поиск максимального элемента
+        /// </summary>
+        /// <param name="arr">массив элементов</param>
+        /// <param name="maxElement">максимальный элемент</param>
+        /// <param name="i">порядковый номер этого элемента</param>
+        /// <returns></returns>
+        private int SearchMaxElement(int[] arr, int maxElement, int i)
+        {
+            if (i < arr.Length)
+            {
+                if (arr[i] > maxElement)
+                    maxElement = arr[i];
+                i++;
+                return SearchMaxElement(arr, maxElement, i);
+            }
+            else return maxElement;
+        }
+        public int[] DigitFiltering(int[] arr, int digit)
+        {
+            List<int> result = new List<int>();
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+
+                if (arr[i].ToString().Contains(digit.ToString()))
+                    result.Add(arr[i]);
+            }
+
+            return result.ToArray();
         }
     }
 }

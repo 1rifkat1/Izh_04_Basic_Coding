@@ -1,21 +1,38 @@
 ﻿using System;
 using ClassLibrary1;
 using NUnit.Framework;
+using MSUnitTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 
-
+using System.Linq;
 namespace Izh_04_Basic_Coding
 {
-
+    using MSUnitTestContext = Microsoft.VisualStudio.TestTools.UnitTesting.TestContext;
     [TestFixture]
+    [MSUnitTest.TestClass]
     public class Izh04BasicCodingTests
     {
+
         lab4 LabWorker = new lab4();
-                          
+
+        public MSUnitTestContext TestContext
+        {
+            get
+            {
+                return testContext;
+            }
+            set
+            {
+                testContext = value;
+            }
+        }
+
+        private MSUnitTestContext testContext;
+
         [TestCase(new int[] { 1, 1, 1, 1, 1, 1, 1 }, ExpectedResult = 1)]
         [TestCase(new int[] { 0, -1, 11, 21, 1, 2, 8, 65, 34, 21, 765, -12, 566, 7878, -199, 0, 34, 65, 87, 12, 34 }, ExpectedResult = 7878)]
         public int CheckMaxElementFinding(int[] sourceArray)
         {
-            throw new NotImplementedException();
+            return LabWorker.FindMaxElement(sourceArray);
         }
 
         [TestCase(new double[] {  }, ExpectedResult = -1)]
@@ -35,12 +52,38 @@ namespace Izh_04_Basic_Coding
 
         [TestCase(new int[] { 7, 1, 2, 3, 4, 5, 6, 7, 68, 69, 70, 15, 17 }, 7, ExpectedResult = new int[] { 7, 7, 70, 17 })]
         [TestCase(new int[] { 7, 1, 2, 3, 4, 5, 6, 7, 68, -69, 70, 15, 17 }, 6, ExpectedResult = new int[] { 6, 68, -69 })]
-        [TestCase(new int[] { 7, 1, 2, 3, 4, 5, 6, 7, 68, -69, 70, 15, 17 }, 9, ExpectedResult = new int[] { })]
+        [TestCase(new int[] { 7, 1, 2, 3, 4, 5, 6, 7, 68, -69, 70, 15, 17 }, 9, ExpectedResult = new int[] { -69 })]
         public int[] CheckDigitFiltering(int[] sourceArray, int digit)
         {
-            throw new NotImplementedException();
+            return LabWorker.DigitFiltering(sourceArray, digit);
+        }
+        [MSUnitTest.TestMethod]
+        public void CheckDigitFilteringNegativeNumbers()
+        {
+            MSUnitTest.CollectionAssert.AreEqual(LabWorker.DigitFiltering(new int[] { -10, 15, -9, -21, 0, 3 }, 1), new int[] { -10, 15, -21 });
+            MSUnitTest.CollectionAssert.AreEqual(LabWorker.DigitFiltering(new int[] { -1, -2, -3, -4, -5, -6, -7, -8, -9, 0 }, 5), new int[] { -5 });
+            MSUnitTest.CollectionAssert.AreEqual(LabWorker.DigitFiltering(new int[] { -10, -11, -111, -1111, 11111 }, 1), new int[] { -10, -11, -111, -1111, 11111 });
+            MSUnitTest.CollectionAssert.AreEqual(LabWorker.DigitFiltering(new int[] { 7, 1, 2, 3, 4, 5, 6, 7, 68, -69, 70, 15, 17 }, 9), new int[] { -69 });
+            MSUnitTest.CollectionAssert.AreEqual(LabWorker.DigitFiltering(new int[] { 4,15,8,9,35,6,88,21,49,99 }, 4), new int[] { 4,49 });
+            MSUnitTest.CollectionAssert.AreEqual(LabWorker.DigitFiltering(new int[] { 8,99,56,34,17,59,71,}, 7), new int[] { 17,71 });
         }
 
+        [MSUnitTest.TestMethod]
+        [MSUnitTest.DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV",
+            @"|DataDirectory|\data.csv", "data#csv", MSUnitTest.DataAccessMethod.Sequential),
+            MSUnitTest.DeploymentItem("data.csv")]
+        public void CheckDigitFilteringDDT()
+        {
+            var rowInputArray = TestContext.DataRow["Input array"].ToString();
+            var rowInputDigit = TestContext.DataRow["Input digit"].ToString();
+            var rowExpected = TestContext.DataRow["Expected Result"].ToString();
+
+            var sourceArray = rowInputArray.Split(' ').Select(x => int.Parse(x)).ToArray();
+            var digit = int.Parse(rowInputDigit);
+
+            var actualResult = string.Join(" ", LabWorker.DigitFiltering(sourceArray, digit));
+            Assert.AreEqual(rowExpected, actualResult);
+        }
 
 
         [TestCase(8, 15,0,0, ExpectedResult = 9)]   
